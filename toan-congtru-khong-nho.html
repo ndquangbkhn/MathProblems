@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1000 phép toán không nhớ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .problems-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        .math-problem {
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        input {
+            width: 50px;
+            text-align: center;
+                height: 32px;
+                margin-left: 12px
+        }
+    </style>
+</head>
+<body>
+    <h3>1000 phép toán không nhớ</h3>
+    <div class="problems-container" id="problems"></div>
+
+    <script>
+        function generateRandomMathProblems(numProblems) {
+            const problems = [];
+            while (problems.length < numProblems) {
+                const num1 = Math.floor(Math.random() * 100); // random number between 0 and 99
+                const num2 = Math.floor(Math.random() * 100); // random number between 0 and 99
+                const operation = Math.random() < 0.5 ? '+' : '-'; // random operation (addition or subtraction)
+
+                let result;
+                if (operation === '+') {
+                    if (num1 + num2 < 100 && (num1 % 10) + (num2 % 10) < 10) {
+                        result = num1 + num2;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    if (num1 % 10 > num2 % 10) {
+                        result = num1 - num2;
+                        if (result >= 0) {
+                            problems.push({ num1, num2, operation, result });
+                        }
+                    }
+                    continue;
+                }
+            }
+            return problems;
+        }
+
+        function displayMathProblems(problems) {
+            const problemsContainer = document.getElementById('problems');
+            problems.forEach((problem) => {
+                const problemDiv = document.createElement('div');
+                problemDiv.className = 'math-problem';
+                problemDiv.innerHTML = `
+                    ${problem.num1} ${problem.operation} ${problem.num2} = 
+                    <input type="number" />
+                `;
+                problemsContainer.appendChild(problemDiv);
+            });
+        }
+
+        const mathProblems = generateRandomMathProblems(1000);
+        displayMathProblems(mathProblems);
+            window.print();
+    </script>
+</body>
+</html>

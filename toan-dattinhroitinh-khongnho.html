@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1000 Đặt tính rồi tính - không nhớ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .problems-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 20px;
+        }
+        .math-problem {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            font-size: 20px;
+            padding: 16px;
+            page-break-inside: avoid; /* Ngăn chia giữa hai trang */
+        }
+        .math-problem div.item {
+            display: flex;
+            justify-content: flex-end;
+            width: 100%;
+             letter-spacing: .3em;
+        }
+        .operator {
+            position: absolute;
+            
+            top: -8px;
+                
+        }
+        .line {
+            border-bottom: 2px solid #999;
+            width: 100%;
+            margin: 5px 0;
+        }
+            .op-container {
+            width: 100%;
+                position:relative;
+                    height: 4px;
+            }
+        input {
+               width: 100%;
+            text-align: center;
+            font-size: 20px;
+            border: none;
+  
+    border-bottom: 1px dotted #999;
+            height: 36px;
+        }
+    </style>
+</head>
+<body>
+    <h3>1000 Đặt tính rồi tính - không nhớ</h3>
+    <div class="problems-container" id="problems"></div>
+
+    <script>
+        function generateRandomMathProblems(numProblems) {
+            const problems = [];
+            while (problems.length < numProblems) {
+                const num1 = Math.floor(Math.random() * 100); // random number between 0 and 99
+                const num2 = Math.floor(Math.random() * 100); // random number between 0 and 99
+                const operation = Math.random() < 0.5 ? '+' : '-'; // random operation (addition or subtraction)
+
+                let result;
+                if (operation === '+') {
+                    if (num1 + num2 < 100 && (num1 % 10) + (num2 % 10) < 10) {
+                        result = num1 + num2;
+                    } else {
+                        continue;
+                    }
+                } else {
+                    if (num1 % 10 > num2 % 10) {
+                        result = num1 - num2;
+                        if (result < 0) {
+                            continue;
+                        }
+                    } else {
+                        continue;
+                    }
+                }
+
+                problems.push({ num1, num2, operation, result });
+            }
+            return problems;
+        }
+
+        function displayMathProblems(problems) {
+            const problemsContainer = document.getElementById('problems');
+            problems.forEach((problem) => {
+                const problemDiv = document.createElement('div');
+                problemDiv.className = 'math-problem';
+                problemDiv.innerHTML = `
+                    <div class='item'>${problem.num1}</div>
+                    <div class='op-container' style="position:relative;"><div class="operator">${problem.operation}</div></div>
+                    <div class='item'>${problem.num2}</div>
+                    <div class="line"></div>
+                    <input type="number" />
+                `;
+                problemsContainer.appendChild(problemDiv);
+            });
+        }
+
+        const mathProblems = generateRandomMathProblems(1000);
+        displayMathProblems(mathProblems); window.print();
+    </script>
+</body>
+</html>
